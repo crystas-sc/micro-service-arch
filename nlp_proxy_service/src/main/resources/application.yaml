@@ -1,0 +1,26 @@
+spring:
+    application:
+        name: "capps_ner_requester"
+        spacyApiUrl: https://api.explosion.ai/displacy/ent
+    zipkin:
+        sender:
+            type: web
+        # baseUrl: http://localhost:9411/zipkin/
+    sleuth:
+        enabled: true
+        sampler:
+            probability: 1.0
+logging:
+    level:
+        com:
+            capps:
+                nlp: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
