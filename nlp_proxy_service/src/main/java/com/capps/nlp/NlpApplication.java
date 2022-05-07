@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class StanfordNlpApplication {
+public class NlpApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(StanfordNlpApplication.class, args);
+		SpringApplication.run(NlpApplication.class, args);
 	}
 
 }

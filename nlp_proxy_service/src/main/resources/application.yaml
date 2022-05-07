@@ -24,3 +24,20 @@ management:
   endpoint:
     shutdown:
       enabled: true
+
+server:
+  tomcat:
+    threads:
+      max: 30
+  error:
+    include-message: always
+
+resilience4j.bulkhead:
+    configs:
+        default:
+            eventConsumerBufferSize: 1
+            maxConcurrentCalls: 1
+    instances:
+        nerRateLimiter:
+            maxConcurrentCalls: 1
+            maxWaitDuration: 1ms
