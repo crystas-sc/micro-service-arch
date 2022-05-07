@@ -3,6 +3,7 @@ package com.capps.ocr.service;
 import com.capps.ocr.exceptions.NERServiceNotFoundException;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +21,9 @@ public class NerServiceRequesterImpl implements NerService {
     @Value("${spring.application.nerServiceUrl}")
     String nerServiceUrl;
 
+    @Autowired
+    RestTemplate restTemplate;
+
     @Override
     @Retry(name = "nerService", fallbackMethod = "getNERFallback")
     @CircuitBreaker(name = "nerServiceCircuitBreaker" , fallbackMethod = "getNERFallback")
@@ -31,7 +35,6 @@ public class NerServiceRequesterImpl implements NerService {
         reqJsonObject.put("text", text);
 
         HttpEntity<String> request = new HttpEntity<>(reqJsonObject.toString(), headers);
-        RestTemplate restTemplate = new RestTemplate();
         String responseJsonStr = restTemplate.postForObject(nerServiceUrl, request, String.class);
         log.debug("Response from ner-proxy-service {}", responseJsonStr);
         return responseJsonStr;
