@@ -90,3 +90,18 @@ services:
   #   volumes:
   #     - ./prometheus/create-datasource-and-dashboard.sh:/create.sh:ro
   #   command: /create.sh
+  ner-proxy:
+    build:
+      context: ../nlp_proxy_service
+      dockerfile: Dockerfile
+    entrypoint: ["java","-cp","/opt/app:/opt/app/lib/*","com.capps.nlp.NlpApplication"]
+    ports:
+      - 8081:8081
+  ocr:
+    build:
+      context: ../ocr_service
+      dockerfile: Dockerfile
+    entrypoint: ["java","-cp","/opt/app:/opt/app/lib/*","com.capps.ocr.OCRApplication"]
+    ports:
+      - 8080:8080
+

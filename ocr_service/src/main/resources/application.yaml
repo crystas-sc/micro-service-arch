@@ -1,0 +1,56 @@
+spring:
+    application:
+        name: "capps_ocr"
+        nerServiceUrl: http://ner-proxy:8081/get-ner
+    zipkin:
+        sender:
+            type: web
+        baseUrl: http://zipkin:9411/
+    sleuth:
+        enabled: true
+        sampler:
+            probability: 1.0
+logging:
+    level:
+        com:
+            capps:
+                ocr: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+
+server:
+  tomcat:
+    threads:
+      max: 30
+  error:
+    include-message: always
+
+# resilience4j.circuitbreaker:
+#  instances:
+#      nerServiceCircuitBreaker:
+#          registerHealthIndicator: true
+#          slidingWindowSize: 13
+#          permittedNumberOfCallsInHalfOpenState: 11
+#          slidingWindowType: TIME_BASED
+
+resilience4j:
+  retry:
+    instances:
+      nerService:
+        maxAttempts: 3
+        waitDuration: 2s
+        retryExceptions:
+          - java.lang.Exception
+
+# resilience4j.timelimiter:
+#  instances:
+#      nerServiceCircuitBreaker:
+#          timeoutDuration: 1s
+#          cancelRunningFuture: false

@@ -5,7 +5,7 @@ spring:
     zipkin:
         sender:
             type: web
-        # baseUrl: http://localhost:9411/zipkin/
+        baseUrl: http://zipkin:9411/
     sleuth:
         enabled: true
         sampler:
@@ -26,6 +26,7 @@ management:
       enabled: true
 
 server:
+  port: 8081
   tomcat:
     threads:
       max: 30
