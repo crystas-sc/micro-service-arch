@@ -1,13 +1,18 @@
 package com.capps.ocr.controllers;
 
+import java.util.Map;
+
 import com.capps.ocr.service.FilesStorageService;
 import com.capps.ocr.service.NerService;
 import com.capps.ocr.service.OCRService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,26 +35,18 @@ public class DefaultController {
     NerService nerService;
 
     @GetMapping("/")
-    public String hello(){
+    public String hello() {
         return "Hello World!";
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        String message = "";
-        try {
-            String storedFileName = storageService.save(file);
+    @CrossOrigin
+    public JsonNode uploadFile(@RequestParam("file") MultipartFile file) throws JsonProcessingException, Exception {
+        String storedFileName = storageService.save(file);
+        log.info("Sending request to OCR processing");
+        String message = ocrService.getOCR(storedFileName);
+        log.info("ocr successfull, requesting ner-proxy-service");
+        return nerService.getNER(message);
 
-            message = "Uploaded the file successfully: " + file.getOriginalFilename();
-            log.info("Sending request to OCR processing");
-            message =  ocrService.getOCR(storedFileName);
-            log.info("ocr successfull, requesting ner-proxy-service");
-            message = nerService.getNER(message);
-            return ResponseEntity.status(HttpStatus.OK).body(message);
-        } catch (Exception e) {
-            log.error("exception {}",e);
-            // message = "Error in processing uploaded file: " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
     }
 }

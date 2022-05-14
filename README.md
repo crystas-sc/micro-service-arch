@@ -18,7 +18,7 @@ Tracks path taken by the incoming request throgh out the all the microservices
 Sends the stats of the JVM to the Prometheus adapter and visualizes it with Grafana
 * **Log analysis - ELK**  
 Uses Logstash to export the log data to Elastic search for analysis
-* **Disaster recovery - Resilience4j** 
+* **Fault tolerance - Resilience4j** 
 Uses Resilience4j Java library to introduce Fault tolerance features like Circuit Breaker and  Rate Limiter
 
 
