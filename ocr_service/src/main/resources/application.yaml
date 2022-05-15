@@ -57,3 +57,8 @@ resilience4j:
 #      nerServiceCircuitBreaker:
 #          timeoutDuration: 1s
 #          cancelRunningFuture: false
+
+logback:
+  destination:
+    url: logstash
+    port: 5000

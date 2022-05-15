@@ -42,3 +42,8 @@ resilience4j.bulkhead:
         nerRateLimiter:
             maxConcurrentCalls: 1
             maxWaitDuration: 1ms
+
+logback:
+  destination:
+    url: logstash
+    port: 5000
