@@ -31,6 +31,7 @@ npm run dev
 
 # keys
 ```
+mkdir keys
 cd keys
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx.key -out nginx.crt
 openssl dhparam -out dhparam.pem 256

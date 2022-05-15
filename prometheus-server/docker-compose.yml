@@ -97,6 +97,9 @@ services:
     entrypoint: ["java","-cp","/opt/app:/opt/app/lib/*","com.capps.nlp.NlpApplication"]
     ports:
       - 8081:8081
+    # dns:
+    #   - 8.8.8.8
+    #   - 4.4.4.4
   ocr:
     build:
       context: ../ocr_service
@@ -104,4 +107,11 @@ services:
     entrypoint: ["java","-cp","/opt/app:/opt/app/lib/*","com.capps.ocr.OCRApplication"]
     ports:
       - 8080:8080
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+      - 443:443
 
